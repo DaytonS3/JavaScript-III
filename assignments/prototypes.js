@@ -7,7 +7,9 @@
   
   Each constructor function has unique properties and methods that are defined in their block comments below:
 */
-  
+
+
+//----------------------------------------------------------------------
 /*
   === GameObject ===
   * createdAt
@@ -15,14 +17,33 @@
   * dimensions (These represent the character's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
+function GameObjects(att) {
+  this.createdAt = att.createdAt;
+  this.name = att.name;
+  this.dimensions = att.dimensions;
+}
 
+GameObjects.prototype.destroy = function () {
+  return `${this.name} was removed from the game.`;
+};
+
+//-------------------------------------------------------------------
 /*
   === CharacterStats ===
   * healthPoints
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
+function CharacterStats (CharAtt) {
+  this.healthPoints = CharAtt.healthPoints;
+  GameObjects.call(this, CharAtt);
+}
+CharacterStats.prototype = Object.create(GameObjects.prototype);
+CharacterStats.prototype.takeDamage = function () {
+  return `${this.name} took damage.`
+};
 
+//----------------------------------------------------------------------
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
   * team
@@ -32,7 +53,67 @@
   * should inherit destroy() from GameObject through CharacterStats
   * should inherit takeDamage() from CharacterStats
 */
- 
+ function Humanoid (HumAtt) {
+  this.team = HumAtt.team;
+  this.weapons = HumAtt.weapons;
+  this.language = HumAtt.language;
+  CharacterStats.call(this, HumAtt);
+};
+
+Humanoid.prototype = Object.create(CharacterStats.prototype);
+Humanoid.prototype.greet = function () {
+  return `${this.name} offers a greeting in ${this.language}.`
+}
+
+//-------------------------------------------------------------------
+
+function Villain (VilAtt) {
+  Humanoid.call(this, VilAtt);
+}
+
+Villain.prototype = Object.create(Humanoid.prototype);
+Villain.prototype.bat = function (opponent) {
+
+  if (opponent.healthPoints <= 0) {
+    return `${opponent.name} were KILLED by a bat `;
+  } else 
+    return `${opponent.name} have been hit by a bat `
+};
+
+
+
+
+
+
+
+
+
+//---------------------------------------------------------------------
+
+function Hero (HeroAtt) {
+  Humanoid.call(this, HeroAtt);
+}
+
+Hero.prototype = Object.create(Humanoid.prototype);
+Hero.prototype.force = function (opp) {
+  if (opp.healthPoints <= 0) {
+    return `${opp.name} were KILLED by THE FORCE !!!`;
+  } else 
+    return `${opp.name} have been Hurt by THE FORCE by !!!`
+};
+
+
+
+
+
+
+//--------------------------------------------------------------------
+
+  // Stretch task: 
+  // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
+  // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
+  // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
   * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
@@ -41,7 +122,7 @@
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
-/*
+
   const mage = new Humanoid({
     createdAt: new Date(),
     dimensions: {
@@ -92,6 +173,42 @@
     language: 'Elvish',
   });
 
+
+  const badman = new Humanoid({
+    createdAt: new Date(),
+    dimensions: {
+      length: 2,
+      width: 4,
+      height: 5,
+    },
+    healthPoints: 15,
+    name: 'BadMan',
+    team: 'BadPeople',
+    weapons: [
+      'Knife',
+      'Baseball bat',
+    ],
+    language: 'Evilish',
+  });
+
+  const goodman = new Humanoid({
+    createdAt: new Date(),
+    dimensions: {
+      length: 3,
+      width: 4,
+      height: 4,
+    },
+    healthPoints: 15,
+    name: 'GoodMan',
+    team: 'GreatPeople',
+    weapons: [
+      'The Force',
+      'Lightsaber',
+    ],
+    language: 'Pig Latin',
+  });
+
+ 
   console.log(mage.createdAt); // Today's date
   console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
   console.log(swordsman.healthPoints); // 15
@@ -102,9 +219,8 @@
   console.log(archer.greet()); // Lilith offers a greeting in Elvish.
   console.log(mage.takeDamage()); // Bruce took damage.
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-*/
+  console.log(Hero);
+  console.log(Villain);
+  console.log(Villain.prototype.bat(Hero));
+  console.log(Hero.prototype.force(Villain));
 
-  // Stretch task: 
-  // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
-  // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
-  // * Create two new objects, one a villain and one a hero and fight it out with methods!
