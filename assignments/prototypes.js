@@ -75,9 +75,9 @@ Villain.prototype = Object.create(Humanoid.prototype);
 Villain.prototype.bat = function (opponent) {
 
   if (opponent.healthPoints <= 0) {
-    return `You were KILLED by a bat`;
+    return `${opponent.name} were KILLED by a bat `;
   } else 
-    return `You have been hit by a bat`
+    return `${opponent.name} have been hit by a bat `
 };
 
 
@@ -97,9 +97,9 @@ function Hero (HeroAtt) {
 Hero.prototype = Object.create(Humanoid.prototype);
 Hero.prototype.force = function (opp) {
   if (opp.healthPoints <= 0) {
-    return `You were KILLED by THE FORCE!!!`;
+    return `${opp.name} were KILLED by THE FORCE !!!`;
   } else 
-    return `You have been Hurt by THE FORCE!!!`
+    return `${opp.name} have been Hurt by THE FORCE by !!!`
 };
 
 
