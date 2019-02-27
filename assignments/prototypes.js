@@ -72,12 +72,12 @@ function Villain (VilAtt) {
 }
 
 Villain.prototype = Object.create(Humanoid.prototype);
-Villain.prototype.attack = function () {
-  if(Object.healthPoints <= 0) {
-    return destroy();
-  } else{
-    return `You have been attacked`
-  }
+Villain.prototype.bat = function (opponent) {
+
+  if (opponent.healthPoints <= 0) {
+    return `You were KILLED by a bat`;
+  } else 
+    return `You have been hit by a bat`
 };
 
 
@@ -95,15 +95,12 @@ function Hero (HeroAtt) {
 }
 
 Hero.prototype = Object.create(Humanoid.prototype);
-  
-Hero.prototype.attack = function () {
-  if(Object.healthPoints <= 0) {
-      return destroy();
-  } else{
-      return `You have been attacked`
-  }
+Hero.prototype.force = function (opp) {
+  if (opp.healthPoints <= 0) {
+    return `You were KILLED by THE FORCE!!!`;
+  } else 
+    return `You have been Hurt by THE FORCE!!!`
 };
-
 
 
 
@@ -211,6 +208,7 @@ Hero.prototype.attack = function () {
     language: 'Pig Latin',
   });
 
+ 
   console.log(mage.createdAt); // Today's date
   console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
   console.log(swordsman.healthPoints); // 15
@@ -223,6 +221,6 @@ Hero.prototype.attack = function () {
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
   console.log(Hero);
   console.log(Villain);
-  console.log(Object.healthPoints);
-  
+  console.log(Villain.prototype.bat(Hero));
+  console.log(Hero.prototype.force(Villain));
 
